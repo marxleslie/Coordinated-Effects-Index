@@ -1,6 +1,8 @@
 //Author: Kenny Gong
 //Date: Aug 22, 2022
 
+//Shoutout Allison Gong for helping me out! Appreciate u :)
+
 //Coordinated Effects Index
 
 
@@ -76,6 +78,7 @@ function main() {
     console.log("criticalSharesList: " + criticalSharesList)
     getCEIHHI(criticalSharesList, shares)
     getPostCEIHHI(alphas)
+    marginChecker(margin)
 }
 
 //Get market share inputs
@@ -154,7 +157,7 @@ function createAlphaValues(shares, num) {
         console.log("share1: " + share1)
         console.log("(shares[i] / 100.0): " + (shares[i] / 100.0))
         console.log("(1.0 / (margin / 100.0)) - 2.0 + (share1 / 100.0): " + (1.0 / (margin / 100.0)) - 2.0 + (share1 / 100.0))
-        alphas[i] = parseFloat((shares[i] / 100.0) / ((1.0 / (margin / 100.0)) - 2.0 + (share1 / 100.0)))
+        alphas[i] = Math.round((parseFloat((shares[i] / 100.0) / ((1.0 / (margin / 100.0)) - 2.0 + (share1 / 100.0)))) * 1000) / 1000
         console.log("alphas[i]: " + alphas[i])
     }
     alphasWithNA = []
@@ -274,7 +277,7 @@ function getCriticalValues(alphas, sumAlphasVar, sumNoCheckVar, listSumNoAlphaiV
     console.log('listSumNoAlphaiVar: ' + listSumNoAlphaiVar)
     for (let i = 0; i < listSumNoAlphaiVar.length; i++) {
         critShare = ((1.0 + parseFloat(alphas[i]) + parseFloat(sumNoCheckVar)) * (1.0 + parseFloat(sumNoCheckVar))) / ((1.0 + parseFloat(listSumNoAlphaiVar[i])) * (1.0 + parseFloat(sumAlphasVar)))
-        criticalValueList.push(critShare)
+        criticalValueList.push(Math.round(critShare * 1000) / 1000)
     }
     console.log(criticalValueList)
     return criticalValueList
@@ -295,7 +298,7 @@ function getCEIHHI(criticalSharesList, shares) {
     insertPreCEIHHI(preCEIHHIList)
 }
 
-function getPostCEIHHI(alphas) {
+function getPostCEIHHI(alphas, shares) {
     mKCheckerBool = mKChecker()
     merAndUnmerList = mergedAlphasInit(alphas)
     sumMergedAlphasVar = sumMergedAlphas(merAndUnmerList[0])
@@ -311,6 +314,8 @@ function getPostCEIHHI(alphas) {
     sumSPostVar = sumSPost(listSPostVar)  
     postCEIVar = getPostCEI(sumSPostVar)
     insertPostCEI(postCEIVar)
+    postHHIVar = getPostHHI()
+    insertPostHHI(postHHIVar)
 }
 
 //Calculate pre- and post-merger CEI and HHI
@@ -335,7 +340,7 @@ function getPreCEIHHI(criticalSharesList, shares) {
         preHHI += Math.pow(shares[i], 2)
     }
 
-    return [preCEI, preHHI]
+    return [Math.round(preCEI * 1000) / 1000, Math.round(preHHI * 1000) / 1000]
 }
 
 //Insert Pre-merger CEI and HHI into corresponding HTML location
@@ -552,13 +557,52 @@ function sumSPost(listSPostVar) {
     return sumSPost
 }
 
+//Calculate post merger HHI
+function getPostHHI() {
+    let mergedShare = 0
+    let newShares = []
+    for (let i = 0; i < shareElems.length; i++) {
+        newShares.push(parseFloat(shareElems[i].value))
+    }
+
+    for (let i = 0; i < newShares.length; i++) {
+        if (mergingElems[i].checked) {
+            mergedShare += newShares[i]
+            newShares.splice(i, 1)
+        }
+    }
+    newShares.push(mergedShare)
+
+    let postHHI = 0
+    for (let i = 0; i < newShares.length; i++) {
+        postHHI += (newShares[i] * newShares[i])
+    }
+    console.log(postHHI)
+    return Math.round(postHHI * 1000) / 1000
+}
+
 //Calculate post merger CEI by subtracting 1 - sumSPost
 function getPostCEI(sumSPostVar) {
     let postCEI = 1 - sumSPostVar
-    return postCEI
+    return Math.round(postCEI * 1000) / 1000
 }
 
 //Insert post merger CEI into corresponding HTML location
 function insertPostCEI(postCEIVar) {
     CEIHHIErrElems[2].innerHTML = postCEIVar
 }
+
+//Insert post merger HHI into corresponding HTML location
+function insertPostHHI(postHHIVar) {
+    CEIHHIErrElems[3].innerHTML = postHHIVar
+}
+
+//These last few functions will be for edge cases, decimal places, etc. 
+
+function marginChecker(margin) {
+    let share = parseFloat(shareElems[0].value)
+    if (parseFloat(margin) * 100 > (1 / (2 - (share) / 100)) - 1) {
+        CEIHHIErrElems[4].innerHTML = "Margin must be smaller!"
+    }
+}
+
