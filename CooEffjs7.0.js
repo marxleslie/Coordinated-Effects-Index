@@ -64,10 +64,12 @@ function main() {
     margin = getMargin();
     if (shareSumChecker(shares) == true) {
         CEIHHIErrElems[4].innerHTML = "Sum of market shares must equal 100!"
+        NAInserter()
         return 
     }
     if (negShareChecker(shares) == true) {
         CEIHHIErrElems[4].innerHTML = "Cannot have negative market shares!"
+        NAInserter()
         return
     }
     alphaLists = alphaValues(shares, margin);
@@ -78,7 +80,12 @@ function main() {
     console.log("criticalSharesList: " + criticalSharesList)
     getCEIHHI(criticalSharesList, shares)
     getPostCEIHHI(alphas)
+
+    //Edge case functions
     marginChecker(margin)
+    alphaDisp()
+    coordDisp()
+    inpTypeChecker()
 }
 
 //Get market share inputs
@@ -559,19 +566,29 @@ function sumSPost(listSPostVar) {
 
 //Calculate post merger HHI
 function getPostHHI() {
+    console.log(mergingElems)
     let mergedShare = 0
+    let shares = []
     let newShares = []
     for (let i = 0; i < shareElems.length; i++) {
-        newShares.push(parseFloat(shareElems[i].value))
+        shares.push(parseFloat(shareElems[i].value))
     }
+    console.log(shares)
 
-    for (let i = 0; i < newShares.length; i++) {
+
+    for (let i = 0; i < shares.length; i++) {
         if (mergingElems[i].checked) {
-            mergedShare += newShares[i]
-            newShares.splice(i, 1)
+            console.log('true')
+            mergedShare += shares[i]
         }
+        else {
+            newShares.push(shares[i])
+        }
+        console.log(newShares)
+        console.log(mergedShare)
     }
     newShares.push(mergedShare)
+    console.log(newShares)
 
     let postHHI = 0
     for (let i = 0; i < newShares.length; i++) {
@@ -599,10 +616,68 @@ function insertPostHHI(postHHIVar) {
 
 //These last few functions will be for edge cases, decimal places, etc. 
 
+//Display if margin is in allowable range
 function marginChecker(margin) {
     let share = parseFloat(shareElems[0].value)
-    if (parseFloat(margin) * 100 > (1 / (2 - (share) / 100)) - 1) {
-        CEIHHIErrElems[4].innerHTML = "Margin must be smaller!"
+    if (parseFloat(margin) >= 100 * (1 / (2 - (share / 100)))) {
+        CEIHHIErrElems[4].innerHTML = "Margin outside of range: 1 to " +  Math.floor(100 * (1 / (2 - (share / 100))))
+        for (let i = 0; i < alphaElems.length; i++) {
+            alphaElems[i].innerHTML = "N/A"
+        }
+        for (let i = 0; i < critElems.length; i++) {
+            critElems[i].innerHTML = "N/A"
+        }
+        for (let i = 0; i < CEIHHIErrElems.length - 1; i++) {
+            CEIHHIErrElems[i].innerHTML = "N/A"
+        }
+    }
+    else {
+        CEIHHIErrElems[4].innerHTML = "Allowable range for firm 1's margin is 1 to " +  Math.floor(100 * (1 / (2 - (share / 100))))
+
     }
 }
 
+//Display alphas only if market share is non-zero
+function alphaDisp() {
+    for (let i = 0; i < shareElems.length; i++) {
+        if (shareElems[i].innerHTML == '0.0') {
+            alphaElems[i].innerHTML == "N/A"
+        }
+    }
+}
+
+//Display critical shares only if firm is coordinating 
+function coordDisp() {
+    for (let i = 0; i < shareElems.length; i++) {
+        if (!coordElems[i].checked) {
+            critElems[i].innerHTML = 'N/A'
+        }
+    }
+}
+
+//Function to insert N/A into all outputs when violation occurs 
+function NAInserter() {
+    for (let i = 0; i < alphaElems.length; i++) {
+        alphaElems[i].innerHTML = "N/A"
+    }
+    for (let i = 0; i < critElems.length; i++) {
+        critElems[i].innerHTML = "N/A"
+    }
+    for (let i = 0; i < CEIHHIErrElems.length - 1; i++) {
+        CEIHHIErrElems[i].innerHTML = "N/A"
+    }  
+}
+
+//Check type of all inputs
+function inpTypeChecker() {
+    for (let i = 0; i < shareElems.length; i++) {
+        if (isNaN(shareElems[i].innerHTML)) {
+            CEIHHIErrElems[4].innerHTML = "Inputs must be numbers!"
+            NAInserter()
+        }
+    }
+    if (isNaN(document.getElementById("m").value)) {
+        CEIHHIErrElems[4].innerHTML = "Inputs must be numbers!"
+        NAInserter()
+    }
+}
