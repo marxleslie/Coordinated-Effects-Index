@@ -15,3 +15,7 @@ body {
 .floatLeft { width: 50%; float: left; }
 .floatRight {width: 50%; float: right; }
 .container1 { overflow: hidden; }
+
+.cb {
+    background: green;
+}

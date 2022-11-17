@@ -25,10 +25,12 @@ var alphaElems = getElemsByTag(2, 12);
 //output11 through output 20 are our critical share outputs (type: float)
 var critElems = getElemsByTag(12, 22);
 
+var postCritElems = getElemsByTag(30, 40)
+
 //These last outputs are our pre- and post-merger CEI and HHI (type: float)
 var CEIHHIErrElems = getElemsByTag(22, 27);
 
-//Once submit button is pressed, it calls function alphaValues
+//Once submit button is pressed, it calls function main
 button.addEventListener('click', function() {
     main();
 });
@@ -79,7 +81,7 @@ function main() {
     criticalSharesList = criticalShares(shares, alphas)
     console.log("criticalSharesList: " + criticalSharesList)
     getCEIHHI(criticalSharesList, shares)
-    getPostCEIHHI(alphas)
+    getPostCEIHHI(alphas, criticalSharesList)
 
     //Edge case functions
     marginChecker(margin)
@@ -305,7 +307,8 @@ function getCEIHHI(criticalSharesList, shares) {
     insertPreCEIHHI(preCEIHHIList)
 }
 
-function getPostCEIHHI(alphas, shares) {
+function getPostCEIHHI(alphas, criticalSharesList) {
+    preCritVar = getCriticalValues(alphas, sumAlphasVar, sumNoCheckVar, listSumNoAlphaiVar)
     mKCheckerBool = mKChecker()
     merAndUnmerList = mergedAlphasInit(alphas)
     sumMergedAlphasVar = sumMergedAlphas(merAndUnmerList[0])
@@ -317,7 +320,8 @@ function getPostCEIHHI(alphas, shares) {
     sumNCMergeFinalVar = sumNCMergeFinal(listNC1Var)
     listNoCheckMergeCloneVar = listNoCheckMergeClone(listNC1Var)
     listCheckedPostMergeVar = listCheckedPostMerge(listNoCheckMergeCloneVar, postAlphas)
-    listSPostVar = listSPost(listCheckedPostMergeVar, sumNCMergeFinalVar, sumPostAlphasVar, postAlphas)
+    listSPostVar =listSPost(listCheckedPostMergeVar, sumNCMergeFinalVar, sumPostAlphasVar, postAlphas)
+    insertSPost(listSPostVar, criticalSharesList)
     sumSPostVar = sumSPost(listSPostVar)  
     postCEIVar = getPostCEI(sumSPostVar)
     insertPostCEI(postCEIVar)
@@ -554,6 +558,37 @@ function listSPost(listCheckedPostMergeVar, sumNCMergeFinalVar, sumPostAlphasVar
     return listSPost
 }
 
+//Insert post merger critical shares
+function insertSPost(listSPostVar, criticalSharesList) {
+    //Begin with inserting the unmerged critical shares, as they are the same pre-merger and post-merger
+    console.log("HERE criticalSharesList: " + criticalSharesList)
+
+    let roundedSPost = []
+    for (let i = 0; i < listSPostVar.length; i++) {
+        let curr = listSPostVar[i]
+        console.log("HERE curr:" + curr)
+        roundedSPost.push(Math.round(curr * 1000) / 1000)
+    }
+    console.log("HERE roundedSPost: " + roundedSPost)
+
+    
+    for (let i = 0; i < criticalSharesList.length; i++) {
+        //console.log("criticalSharesList[i]" + criticalSharesList[i])
+        for (let j = 0; j < roundedSPost.length; j++) {
+            //console.log("roundedSPost[j]" + roundedSPost[j])
+            if (parseFloat(criticalSharesList[i]) == parseFloat(roundedSPost[j])) {
+                postCritElems[i].innerHTML = roundedSPost[j]
+            }
+        }
+    }
+
+    //Next we'll insert the post-merger critical share of the merged firm
+    //Find the first checked merged firm and set their innerHTML to the merged 
+
+
+    
+}
+
 //Get sum of post merger critical shares
 function sumSPost(listSPostVar) {
     let sumSPost = 0
@@ -681,3 +716,13 @@ function inpTypeChecker() {
         NAInserter()
     }
 }
+
+/*
+
+TO-DO 11-16-22:
+1. Implement post-merger SiK
+2. Implement refresh with submit button
+3. 
+
+
+*/
