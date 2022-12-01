@@ -16,6 +16,15 @@ body {
 .floatRight {width: 50%; float: right; }
 .container1 { overflow: hidden; }
 
-.cb {
-    background: green;
+/*.cb {
+    outline-width: 5em;
+    outline-color: green;
+}*/
+
+/*input:focus {
+    outline-color: hotpink;
+}*/
+
+input[type="checkbox"] {
+    outline-color:blueviolet;
 }

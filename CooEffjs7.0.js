@@ -62,8 +62,9 @@ function getElemsByTag(startIndex, stopIndex) {
 
 //main function which calls all functions upon clicking submit
 function main() {
-    shares = getShares();
-    margin = getMargin();
+    resetOutputs()
+    shares = getShares()
+    margin = getMargin()
     if (shareSumChecker(shares) == true) {
         CEIHHIErrElems[4].innerHTML = "Sum of market shares must equal 100!"
         NAInserter()
@@ -88,6 +89,22 @@ function main() {
     alphaDisp()
     coordDisp()
     inpTypeChecker()
+}
+
+//Reset all outputs to 0.0 before beginning again
+function resetOutputs() {
+    for (let i = 0; i < alphaElems.length; i++) {
+        alphaElems[i].innerHTML = "0.0"
+    }
+    for (let i = 0; i < critElems.length; i++) {
+        critElems[i].innerHTML = "0.0"
+    }
+    for (let i = 0; i < postCritElems.length; i++) {
+        postCritElems[i].innerHTML = "0.0"
+    }
+    for (let i = 0; i < CEIHHIErrElems.length; i++) {
+        CEIHHIErrElems[i].innerHTML = "0.0"
+    }
 }
 
 //Get market share inputs
@@ -584,6 +601,16 @@ function insertSPost(listSPostVar, criticalSharesList) {
 
     //Next we'll insert the post-merger critical share of the merged firm
     //Find the first checked merged firm and set their innerHTML to the merged 
+    
+    for (let i = 0; i < 10; i++) {
+        let postSLength = listSPostVar.length
+        if (coordElems[i].checked && mergingElems[i].checked) {
+            let mergedElem = listSPostVar[postSLength - 1]
+            roundedElem = Math.round(mergedElem * 1000) / 1000
+            postCritElems[i].innerHTML = roundedElem
+            break
+        }
+    }
 
 
     
