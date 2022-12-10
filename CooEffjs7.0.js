@@ -579,6 +579,7 @@ function listSPost(listCheckedPostMergeVar, sumNCMergeFinalVar, sumPostAlphasVar
 function insertSPost(listSPostVar, criticalSharesList) {
     //Begin with inserting the unmerged critical shares, as they are the same pre-merger and post-merger
     console.log("HERE criticalSharesList: " + criticalSharesList)
+    console.log("HERE HERE: " + listSPostVar);
 
     let roundedSPost = []
     for (let i = 0; i < listSPostVar.length; i++) {
