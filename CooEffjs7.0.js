@@ -63,6 +63,7 @@ function getElemsByTag(startIndex, stopIndex) {
 //main function which calls all functions upon clicking submit
 function main() {
     resetOutputs()
+    console.log("Kenny")
     shares = getShares()
     margin = getMargin()
     if (shareSumChecker(shares) == true) {
@@ -589,6 +590,28 @@ function insertSPost(listSPostVar, criticalSharesList) {
     }
     console.log("HERE roundedSPost: " + roundedSPost)
 
+    //Get number of unmerged coordinators
+    let numUnmergedCoord = 0
+    for (let i = 0; i < 10; i++) {
+        if (coordElems[i].checked && !mergingElems[i].checked) {
+            numUnmergedCoord++
+        }
+    }
+    console.log("number of unmerged coordinators: " + numUnmergedCoord)
+
+    //Iterate through and insert corresponding SiK of unmerged coordinators
+    //IUM stands for inserted unmerged coordinators
+    let numIUM = 0;
+
+    for (let i = 0; i < 10; i++) {
+        if (coordElems[i].checked && !mergingElems[i].checked) {
+            postCritElems[i].innerHTML = roundedSPost[numIUM];
+            numIUM++
+        }
+        if (numIUM == numUnmergedCoord) {
+            break
+        }
+    }
     
     for (let i = 0; i < criticalSharesList.length; i++) {
         //console.log("criticalSharesList[i]" + criticalSharesList[i])
@@ -613,6 +636,12 @@ function insertSPost(listSPostVar, criticalSharesList) {
         }
     }
 
+    //Finally, we'll loop through the post merger SiK. Any SiK = 0 should be changed to N/A
+    for (let i = 0; i < 10; i++) {
+        if (parseFloat(postCritElems[i].innerHTML) == 0.0) {
+            postCritElems[i].innerHTML = "N/A"
+        }
+    }
 
     
 }
