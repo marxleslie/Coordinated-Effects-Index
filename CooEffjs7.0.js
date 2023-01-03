@@ -641,6 +641,9 @@ function insertSPost(listSPostVar, criticalSharesList) {
         if (parseFloat(postCritElems[i].innerHTML) == 0.0) {
             postCritElems[i].innerHTML = "N/A"
         }
+        if (!coordElems[i].checked && !mergingElems[i].checked) {
+            postCritElems[i] = "N/A"
+        }
     }
 
     
@@ -693,6 +696,7 @@ function getPostHHI() {
 //Calculate post merger CEI by subtracting 1 - sumSPost
 function getPostCEI(sumSPostVar) {
     let postCEI = 1 - sumSPostVar
+    console.log(postCEI);
     return Math.round(postCEI * 1000) / 1000
 }
 
