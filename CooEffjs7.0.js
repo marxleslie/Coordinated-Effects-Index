@@ -637,6 +637,8 @@ function insertSPost(listSPostVar, criticalSharesList) {
     }
 
     //Finally, we'll loop through the post merger SiK. Any SiK = 0 should be changed to N/A
+    //Also sometimes there are post-SiK's that are displayed when they shouldn't be. When a firm is merging and not a coordinator,
+    // it should not have a post-SiK
     for (let i = 0; i < 10; i++) {
         if (parseFloat(postCritElems[i].innerHTML) == 0.0) {
             postCritElems[i].innerHTML = "N/A"
@@ -644,7 +646,11 @@ function insertSPost(listSPostVar, criticalSharesList) {
         if (!coordElems[i].checked && !mergingElems[i].checked) {
             postCritElems[i] = "N/A"
         }
+        if (mergingElems[i].checked && !coordElems[i].checked) {
+            postCritElems[i] = "N/A"
+        }
     }
+    
 
     
 }
