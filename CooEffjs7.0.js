@@ -340,6 +340,7 @@ function getPostCEIHHI(alphas, criticalSharesList) {
     listCheckedPostMergeVar = listCheckedPostMerge(listNoCheckMergeCloneVar, postAlphas)
     listSPostVar =listSPost(listCheckedPostMergeVar, sumNCMergeFinalVar, sumPostAlphasVar, postAlphas)
     insertSPost(listSPostVar, criticalSharesList)
+    numPostSCheck();
     sumSPostVar = sumSPost(listSPostVar)  
     postCEIVar = getPostCEI(sumSPostVar)
     insertPostCEI(postCEIVar)
@@ -639,20 +640,40 @@ function insertSPost(listSPostVar, criticalSharesList) {
     //Finally, we'll loop through the post merger SiK. Any SiK = 0 should be changed to N/A
     //Also sometimes there are post-SiK's that are displayed when they shouldn't be. When a firm is merging and not a coordinator,
     // it should not have a post-SiK
+    //Also, there should be no post merger critical shares equal to 1. This occurs when all coordinators are also mergers
+    console.log(postCritElems);
     for (let i = 0; i < 10; i++) {
+        console.log(postCritElems[i].innerHTML)
         if (parseFloat(postCritElems[i].innerHTML) == 0.0) {
             postCritElems[i].innerHTML = "N/A"
         }
         if (!coordElems[i].checked && !mergingElems[i].checked) {
-            postCritElems[i] = "N/A"
+            console.log("allison gong")
+            postCritElems[i].innerHTML = "N/A"
         }
         if (mergingElems[i].checked && !coordElems[i].checked) {
-            postCritElems[i] = "N/A"
+            console.log("kenny gong")
+            postCritElems[i].innerHTML = "N/A"
+        }
+        if (postCritElems[i].innerHTML == 1) {
+            console.log("iphone13")
+            postCritElems[i].innerHTML = "N/A" 
         }
     }
-    
+    console.log(postCritElems);
 
-    
+        
+}
+
+//Certain scena
+function numPostSCheck() {
+    console.log("allison")
+    for (let i = 0; i < 10; i++) {
+        console.log(postCritElems[i].innerHTML)
+        if (postCritElems[i].innerHTML == null) {
+            postCritElems[i].innerHTML = "N/A" 
+        }
+    }
 }
 
 //Get sum of post merger critical shares
