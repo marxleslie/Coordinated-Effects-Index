@@ -1,0 +1,32 @@
+{
+  "name": "cooeff8.0",
+  "version": "1.0.0",
+  "description": "Web app that provides Coordinated Effects Index and other antitrust metrics.",
+  "main": "CooEffjs7.0.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marxleslie/coordinated-effects-index.git"
+  },
+  "keywords": [
+    "Coordinated",
+    "Effects",
+    "Antitrust",
+    "Collusion",
+    "Mergers",
+    "Acquisitions"
+  ],
+  "author": "Kenny Gong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marxleslie/coordinated-effects-index/issues"
+  },
+  "homepage": "https://github.com/marxleslie/coordinated-effects-index#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mathjs": "^11.7.0"
+  },
+  "type": "module"
+}

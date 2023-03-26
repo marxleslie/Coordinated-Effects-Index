@@ -1,3 +1,6 @@
+import { sqrt } from 'mathjs'
+console.log(sqrt(-4).toString()) // 2i
+
 //Author: Kenny Gong
 //Date: Aug 22, 2022
 
@@ -29,6 +32,13 @@ var postCritElems = getElemsByTag(30, 40)
 
 //These last outputs are our pre- and post-merger CEI and HHI (type: float)
 var CEIHHIErrElems = getElemsByTag(22, 27);
+
+var PIPElems = getElemsByTag(27, 28);
+var OCEPIPElems = getElemsByTag(40, 41);
+var IPRElems = getElemsByTag(41, 42);
+var OCEIPRElems = getElemsByTag(42, 43);
+
+var CEPIPElems = getElemsByTag(40, 41);
 
 //Once submit button is pressed, it calls function main
 button.addEventListener('click', function() {
@@ -62,6 +72,11 @@ function getElemsByTag(startIndex, stopIndex) {
 
 //main function which calls all functions upon clicking submit
 function main() {
+
+    //Test functions for math.js and integration
+    //sqRoot = squaretRoot(25);
+
+    //Main!
     resetOutputs()
     console.log("Kenny")
     shares = getShares()
@@ -84,6 +99,7 @@ function main() {
     console.log("criticalSharesList: " + criticalSharesList)
     getCEIHHI(criticalSharesList, shares)
     getPostCEIHHI(alphas, criticalSharesList)
+    getPIPIPR(alphas);
 
     //Edge case functions
     marginChecker(margin)
@@ -91,6 +107,12 @@ function main() {
     coordDisp()
     inpTypeChecker()
 }
+
+//Test function for math.js square root
+/*function squareRoot(toBeRooted) {
+    console.log(sqrt(toBeRooted).toString())
+    return sqrt(toBeRooted)
+}*/
 
 //Reset all outputs to 0.0 before beginning again
 function resetOutputs() {
@@ -737,6 +759,184 @@ function insertPostHHI(postHHIVar) {
     CEIHHIErrElems[3].innerHTML = postHHIVar
 }
 
+//get the PIP
+function getPIPIPR(alphas) {
+    twoMergeBool = checkMerge();
+    if (twoMergeBool == false) {
+        PIPElems[0].innerHTML = "Must have exactly two merging firms."
+        OCEPIPElems[0].innerHTML = "Must have exactly two merging firms."
+        IPRElems[0].innerHTML = "Must have exactly two merging firms."
+        OCEIPRElems[0].innerHTML = "Must have exactly two merging firms."
+    }
+    else {
+        let myPIP = calcPIP(alphas)
+        let myCEPIP = calcCEPIP(alphas)
+        insertPIP(myPIP)
+        insertCEPIP(myCEPIP)
+        let myIPR = calcIPR(alphas)
+        //let myCEIPR = calcCEIPR(alphas)
+        insertIPR(myIPR)
+        
+
+    }
+}
+
+//Check if there are only and exactly two merging entities
+function checkMerge() {
+    numMerge = 0;
+    for (let i = 0; i < 10; i++) {
+        if (mergingElems[i].checked) numMerge++;
+    }
+    if (numMerge == 2) return true;
+    return false;
+
+}
+
+//calculate PIP
+function calcPIP(alphas) {
+    console.log(alphas);
+    totAlphas = 0
+    for (let i = 0; i < 10; i++) totAlphas += alphas[i];
+
+    //This array will be of length 2, indicating the index of merging alphas in the alpha array
+    let mergeAlphaIndeces = []
+    for (let i = 0; i < 10; i++) {
+        if (mergingElems[i].checked) mergeAlphaIndeces.push(i);
+    }
+    let alphaOne = alphas[mergeAlphaIndeces[0]];
+    let alphaTwo = alphas[mergeAlphaIndeces[1]];
+    let alphasNoOne = totAlphas - alphas[mergeAlphaIndeces[0]];
+    let alphasNoTwo = totAlphas - alphas[mergeAlphaIndeces[1]];
+    let alphasNoOneTwo = totAlphas - (alphas[mergeAlphaIndeces[0]] + alphas[mergeAlphaIndeces[1]]);
+
+    myPIP = (alphaOne * alphaTwo * (totAlphas + alphasNoOneTwo)) / (alphasNoOne * alphasNoTwo * totAlphas);
+    roundedPIP = Math.round(myPIP * 1000) / 1000
+    console.log(roundedPIP);
+    return roundedPIP
+}
+
+//Insert PIP via HTML element
+function insertPIP(myPIP) {
+    console.log(PIPElems)
+    PIPElems[0].innerHTML = myPIP * 100 + '%'
+}
+
+//Calculate PIP w/ Cost efficiency
+function calcCEPIP(alphas) {
+    console.log(alphas);
+    totAlphas = 0
+    for (let i = 0; i < 10; i++) totAlphas += alphas[i];
+    //This array will be of length 2, indicating the index of merging alphas in the alpha array
+    let mergeAlphaIndeces = []
+    for (let i = 0; i < 10; i++) {
+        if (mergingElems[i].checked) mergeAlphaIndeces.push(i);
+    }
+    let alphaOne = alphas[mergeAlphaIndeces[0]];
+    let alphaTwo = alphas[mergeAlphaIndeces[1]];
+    let alphaNoOne = totAlphas - alphas[mergeAlphaIndeces[0]];
+    let alphaNoTwo = totAlphas - alphas[mergeAlphaIndeces[1]];
+    let alphaNoOneTwo = totAlphas - (alphas[mergeAlphaIndeces[0]] + alphas[mergeAlphaIndeces[1]]);
+
+    //Create an array of the saving rates, just an array of 0.01, 0.02, ... 1.00
+    let saveArr = []
+    for (let i = 0; i < 100; i++) {
+        saveArr.push(i * 0.01)
+    }
+    console.log(saveArr)
+
+    //Initialize cost efficiency price increase probability array
+    let cePIPArr = []
+    for (let i = 0; i < 100; i++) {
+        let cePIP = Math.pow(saveArr[i], alphaNoOneTwo) * (1 - Math.pow(saveArr[i], alphaOne)) *
+            (1 - Math.pow(saveArr[i], alphaTwo)) + alphaNoOneTwo * 
+            (((1 - Math.pow(saveArr[i], alphaNoOneTwo)) / alphaNoOneTwo) - 
+            ((1 - Math.pow(saveArr[i], alphaNoOne)) / alphaNoOne) -
+            ((1 - Math.pow(saveArr[i], alphaNoTwo)) / alphaNoTwo) + 
+            ((1 - Math.pow(saveArr[i], totAlphas)) / totAlphas))
+        cePIPArr.push(cePIP)
+    }
+    console.log(cePIPArr)
+
+    //Get the closest PIP to 0.05
+
+    let goal = 0.05
+    var closest = cePIPArr.reduce(function(prev, curr) {
+        return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
+      })
+    console.log(closest)
+
+    //Find corresponding s
+    let saveRate = 0; 
+    for (let i = 0; i < 100; i++) {
+        if (Math.round(closest * 1000) / 1000 == Math.round(cePIPArr[i] * 1000) / 1000) {
+            saveRate = i
+            break
+        }
+    }
+    console.log(saveRate)
+    return saveRate
+
+}
+
+function insertCEPIP(myCEPIP) {
+    console.log(CEPIPElems)
+    CEPIPElems[0].innerHTML = myCEPIP + '%'
+}
+
+//Implement Illustrative Price Increase
+function calcIPR(alphas) {
+    totAlphas = 0
+    for (let i = 0; i < 10; i++) totAlphas += alphas[i];
+    //This array will be of length 2, indicating the index of merging alphas in the alpha array
+    let mergeAlphaIndeces = []
+    for (let i = 0; i < 10; i++) {
+        if (mergingElems[i].checked) mergeAlphaIndeces.push(i);
+    }
+    let alphaOne = alphas[mergeAlphaIndeces[0]];
+    let alphaTwo = alphas[mergeAlphaIndeces[1]];
+    let alphaNoOne = totAlphas - alphas[mergeAlphaIndeces[0]];
+    let alphaNoTwo = totAlphas - alphas[mergeAlphaIndeces[1]];
+    let alphaNoOneTwo = totAlphas - (alphas[mergeAlphaIndeces[0]] + alphas[mergeAlphaIndeces[1]]);
+
+    //Consult the Merger Review Tools for Procurement Markets (Loertscher and Marx) for information about formulas.
+
+    //num1 = topmost numerator in IPR formula.
+    //num2 = second topmost numerator in IPR formula.
+    
+    let num1 = alphaOne * alphaTwo * (alphaOne + alphaTwo + 2 * (1 + alphaNoOneTwo))
+    let num2 = (1 + alphaNoOneTwo) * (1 + alphaOne + alphaNoOneTwo) * (1 + alphaTwo + alphaNoOneTwo) * (1 + totAlphas)
+    console.log(num1)
+    console.log(num2)
+
+    //For denominator, create array of alphas missing each i
+    let alphasNoi = []
+    for (let i = 0; i < 10; i++) {
+        if (alphas[i] != 0) alphasNoi.push(totAlphas - alphas[i])
+    }
+    console.log(alphasNoi)
+
+    //In the denominator, there is a summation. We'll call this summ
+    let summ = 0;
+    for (let i = 0; i < alphasNoi.length; i++) {
+        summ += 1 / (1 + alphasNoi[i])
+    }
+    console.log(summ)
+
+    //the last element is (abs(N) - 1) / (1 + AN). We'll call this lastElemIPR. Note that N = number of firms = alphasNoi.length
+    let lastElemIPR = (alphasNoi.length - 1) / (1 + totAlphas)
+    console.log(lastElemIPR)
+
+    //We have all the elems needed. Just put them together!
+    let ret = (num1 / num2) / (summ - lastElemIPR)
+    console.log(ret)
+    return ret
+
+}
+
+function insertIPR(myIPR) {
+    IPRElems[0].innerHTML = myIPR + '%'
+}
+
 //These last few functions will be for edge cases, decimal places, etc. 
 
 //Display if margin is in allowable range
@@ -755,6 +955,7 @@ function marginChecker(margin) {
         }
     }
     else {
+        console.log(CEIHHIErrElems)
         CEIHHIErrElems[4].innerHTML = "Allowable range for firm 1's margin is 1 to " +  Math.floor(100 * (1 / (2 - (share / 100))))
 
     }
