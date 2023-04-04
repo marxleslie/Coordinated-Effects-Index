@@ -2,9 +2,10 @@
   "name": "cooeff8.0",
   "version": "1.0.0",
   "description": "Web app that provides Coordinated Effects Index and other antitrust metrics.",
-  "main": "CooEffjs7.0.js",
+  "main": "CooEff8.0.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "browserify": "browserify CooEff8.0.js > index.js"
   },
   "repository": {
     "type": "git",
