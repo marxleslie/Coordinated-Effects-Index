@@ -1,20 +1,3 @@
-//We use sm-integral extension to integrate! View this example below for reference.
-
-const Integral = require('sm-integral');
- 
-//definite function to integrate
-function f (x) {
-  return 1 / (x * x);
-}
- 
-//definite integral
-console.log(Integral.integrate(f, 5, 10)); //0.1
- 
-//improper integral
-console.log(Integral.integrate(f, "-inf", -10)); //0.1
-
-
-
 //Author: Kenny Gong
 //Date: Aug 22, 2022
 

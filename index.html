@@ -29,20 +29,21 @@
     
     <button id="submit" style="border-color:blue">Submit</button>
     <body>
-        <div class="container1">
-            <div class="floatLeft">
-                <table border="1">
+        <div>
+            <table class="table">
+                <thead>
                     <tr>
-                        <th>Firm<sub>i</sub></th>
-                        <th>Market Share i</th> <!--is there an abbreviation for market share?-->
-                        <th>Firm 1 Margin</th>
-                        <th>Coordinating Firms</th>
-                        <th>Merging Firms</th>
-                        <th style="width:30%">α<sub>i</sub></th>
-                        <th style="width:30%">s<sub>i</sub><sup>K</sup></th>
-                        <th style="width:30%">post-s<sub>i</sub><sup>K</sup></th>
-
+                        <th scope="col">Firm<sub>i</sub></th>
+                        <th scope="col">Market Share i</th>
+                        <th scope="col">Firm 1 Margin</th>
+                        <th scope="col">Coordinating Firms</th>
+                        <th scope="col">Merging Firms</th>
+                        <th scope="col">α<sub>i</sub></th>
+                        <th scope="col">s<sub>i</sub><sup>K</sup></th>
+                        <th scope="col">post-s<sub>i</sub><sup>K</sup></th>
                     </tr>
+                </thead>
+                <body>
                     <tr>
                         <td style="height:40px">1</td>
                         <td><input id="ms1" type="text" value="0.0" style="border-color:blue"/></td>
@@ -144,39 +145,50 @@
                         <td><p21>0.0</p21></td>  
                         <td><p39>0.0</p39></td>                  
                     </tr>
+                </body>
+            </table>
+        </div>
+
+
+        </div>
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width:15%">CEI<sub>pre-merger</sub></th>
+                            <th style="width:15%">CEI<sub>post-merger</sub></th> 
+                            <th style="width:15%">HHI<sub>pre-merger</sub></th>
+                            <th style="width:15%">HHI<sub>post-merger</sub></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><p22>0.0</p22></td>
+                            <td><p24>0.0</p24></td>
+                            <td><p23>0.0</p23></td>
+                            <td><p25>0.0</p25></td>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th style="width:15%"><p31>PIP</p31></th>
+                            <th style="width:15%"><p28>OCE for PIP = 0.05</p28></th>
+                            <th style="width:15%"><p29>IPR</p29></th>
+                            <th style="width:15%"><p30>CCE for IPR = 0.00</p30></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><p27>0.0</p27></td>
+                            <td><p40>0.0</p40></td>
+                            <td><p41>0.0</p41></td>
+                            <td><p42>0.0</p42></td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
-            <div class="floatRight">
-                <table border="1" align="right">
-                    <tr>
-                        <th style="width:15%">CEI<sub>pre-merger</sub></th>
-                        <th style="width:15%">CEI<sub>post-merger</sub></th> 
-                        <th style="width:15%">HHI<sub>pre-merger</sub></th>
-                        <th style="width:15%">HHI<sub>post-merger</sub></th>
-                    </tr>
-                    <tr>
-                        <td><p22>0.0</p22></td>
-                        <td><p24>0.0</p24></td>
-                        <td><p23>0.0</p23></td>
-                        <td><p25>0.0</p25></td>
-                    </tr>
-                    <tr>
-                        <th style="width:15%"><p31>PIP</p31></th>
-                        <th style="width:15%"><p28>OCE for PIP = 0.05</p28></th>
-                        <th style="width:15%"><p29>IPR</p29></th>
-                        <th style="width:15%"><p30>CCE for IPR = 0.00</p30></th>
-                    </tr>
-                    <tr>
-                        <td><p27>0.0</p27></td>
-                        <td><p40>0.0</p40></td>
-                        <td><p41>0.0</p41></td>
-                        <td><p42>0.0</p42></td>
-                    </tr>
-                    
-                </table>
-            </div>
-            <div class="floatRight">
-                <table border="1" align="right">
+            <div>
+                <table class="table">
                     <tr>
                         <th style="width:15%"><p26>Error Messages Here</p26></th>
                     </tr>
@@ -184,6 +196,8 @@
             </div>
         </div>
     </body>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="CooEff8.0.js"></script>
     </div>
 </html>
