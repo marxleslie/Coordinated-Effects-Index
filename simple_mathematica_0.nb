@@ -1,0 +1,356 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     13461,        346]
+NotebookOptionsPosition[     12546,        321]
+NotebookOutlinePosition[     12942,        337]
+CellTagsIndexPosition[     12899,        334]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"f", "=", 
+  RowBox[{"APIFunction", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"\"\<shareArray\>\"", " ", "->", " ", 
+      RowBox[{"DelimitedSequence", "[", "\"\<Integer\>\"", "]"}]}], "}"}], 
+    ",", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"#shareArray", "[", "0", "]"}], " ", "+", " ", 
+      RowBox[{"#shareArray", "[", "1", "]"}], " ", "+", " ", "3"}], "&"}]}], 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.9146811098152027`*^9, 3.9146811238458977`*^9}, {
+  3.914681198738173*^9, 3.914681203405113*^9}, {3.914681248188603*^9, 
+  3.914681250491755*^9}, {3.914681549499103*^9, 3.914681563051712*^9}},
+ CellLabel->"In[16]:=",ExpressionUUID->"354fec8f-32a5-4297-b299-72b579a32a64"],
+
+Cell[BoxData[
+ RowBox[{"APIFunction", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"\<\"shareArray\"\>", "\[Rule]", 
+     RowBox[{"DelimitedSequence", "[", "\<\"Integer\"\>", "]"}]}], "}"}], ",", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"#shareArray", "[", "0", "]"}], "+", 
+     RowBox[{"#shareArray", "[", "1", "]"}], "+", "3"}], "&"}]}], 
+  "]"}]], "Output",
+ CellChangeTimes->{3.914681566824521*^9},
+ CellLabel->"Out[16]=",ExpressionUUID->"0cc917f7-5851-499c-ac9f-f07d4d9e5149"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"co", " ", "=", " ", 
+  RowBox[{"CloudDeploy", "[", 
+   RowBox[{"f", ",", " ", 
+    RowBox[{"Permissions", "->", "\"\<Public\>\""}]}], "]"}]}]], "Input",
+ CellLabel->"In[19]:=",ExpressionUUID->"0f4554af-fc88-497b-9228-1971b5d96cd6"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"CloudObject", "[", 
+   TemplateBox[{
+    "\"https://www.wolframcloud.com/obj/922e3e47-51d2-4898-af11-e58808e053a4\"\
+", "https://www.wolframcloud.com/obj/922e3e47-51d2-4898-af11-e58808e053a4"},
+    "HyperlinkURL"], "]"}],
+  CloudObject[
+  "https://www.wolframcloud.com/obj/922e3e47-51d2-4898-af11-e58808e053a4"],
+  SelectWithContents->True]], "Output",
+ CellChangeTimes->{3.914682741156513*^9},
+ CellLabel->"Out[19]=",ExpressionUUID->"07f5d631-8313-4cf4-8be3-4a015f778159"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"EmbedCode", "[", 
+  RowBox[{"co", ",", " ", "\"\<Javascript\>\""}], "]"}]], "Input",
+ CellLabel->"In[20]:=",ExpressionUUID->"8eaa92ff-108c-451f-9b54-dc49062aba54"],
+
+Cell[BoxData[
+ InterpretationBox[
+  FrameBox[
+   PanelBox[
+    TagBox[GridBox[{
+       {
+        StyleBox["\<\"Embeddable Code\"\>", "ControlStyle",
+         StripOnInput->False,
+         FontSize->Larger,
+         FontWeight->Bold,
+         FontColor->GrayLevel[0.3]]},
+       {
+        StyleBox["\<\"Use the code below to call the Wolfram Cloud function \
+from JavaScript:\"\>",
+         StripOnInput->False,
+         FontColor->RGBColor[0.23, 0.23, 0.23]]},
+       {
+        FrameBox[
+         TagBox[GridBox[{
+            {
+             TagBox[GridBox[{
+                {
+                 TagBox[GridBox[{
+                    {
+                    StyleBox["\<\"Code\"\>", "ControlStyle",
+                    StripOnInput->False,
+                    FontWeight->Bold,
+                    FontColor->RGBColor[0.33, 0.33, 0.33]]},
+                    {
+                    StyleBox["\<\"\"\>",
+                    StripOnInput->False,
+                    FontColor->RGBColor[0.33, 0.33, 0.33]]}
+                   },
+                   DefaultBaseStyle->"Column",
+                   GridBoxAlignment->{"Columns" -> {{Left}}},
+                   
+                   GridBoxItemSize->{
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+                  "Column"], 
+                 ItemBox[
+                  ButtonBox["\<\"Copy to Clipboard\"\>",
+                   
+                   Appearance:>FEPrivate`FrontEndResource[
+                    "FEExpressions", "GrayButtonNinePatchAppearance"],
+                   BaseStyle->"DialogStyle",
+                   
+                   ButtonFunction:>CopyToClipboard[
+                    "/* \nJavaScript EmbedCode usage:\n\nvar wcc = new \
+WolframCloudCall();\nwcc.call(shareArray, function(result) { \
+console.log(result); });\n*/\n \nvar WolframCloudCall;\n\n(function() {\n\
+WolframCloudCall = function() {\tthis.init(); };\n\nvar p = \
+WolframCloudCall.prototype;\n\np.init = function() {};\n\n\
+p._createCORSRequest = function(method, url) {\n\tvar xhr = new \
+XMLHttpRequest();\n\tif (\"withCredentials\" in xhr) {\n\t\txhr.open(method, \
+url, true);\n\t} else if (typeof XDomainRequest != \"undefined\") {\n\t\txhr \
+= new XDomainRequest();\n\t\txhr.open(method, url);\n\t} else {\n\t\txhr = \
+null;\n\t}\n\treturn xhr;\n};\n\np._encodeArgs = function(args) {\n\tvar \
+argName;\n\tvar params = \"\";\n\tfor (argName in args) {\n\t\tparams += \
+(params == \"\" ? \"\" : \"&\");\n\t\tparams += encodeURIComponent(argName) + \
+\"=\" + encodeURIComponent(args[argName]);\n\t}\n\treturn params;\n};\n\n\
+p._auxCall = function(url, args, callback) {\n\tvar params = \
+this._encodeArgs(args);\n\tvar xhr = this._createCORSRequest(\"post\", url);\n\
+\tif (xhr) {\n\t\txhr.setRequestHeader(\"Content-Type\", \
+\"application/x-www-form-urlencoded\");\n\t\t\
+xhr.setRequestHeader(\"EmbedCode-User-Agent\", \"EmbedCode-JavaScript/1.0\");\
+\n\t\txhr.onload = function() {\n\t\t\tif ((xhr.status >= 200 && xhr.status < \
+300) || xhr.status == 304) {\n\t\t\t\tcallback(xhr.responseText);\n\t\t\t} \
+else {\n\t\t\t\tcallback(null);\n\t\t\t}\n\t\t};\n\t\txhr.send(params);\n\t} \
+else {\n\t\tthrow new Error(\"Could not create request object.\");\n\t}\n};\n\
+\np.call = function(shareArray, callback) {\n\tvar url = \
+\"http://www.wolframcloud.com/obj/922e3e47-51d2-4898-af11-e58808e053a4\";\n\t\
+var args = {shareArray: shareArray};\n\tvar callbackWrapper = \
+function(result) {\n\t\tif (result === null) callback(null);\n\t\telse \
+callback(result);\n\t};\n\tthis._auxCall(url, args, callbackWrapper);\n};\n\
+})();"],
+                   Evaluator->Automatic,
+                   FrameMargins->{{10, 10}, {0, 0}},
+                   ImageSize->Automatic,
+                   Method->"Queued"],
+                  Alignment->Right,
+                  StripOnInput->False]}
+               },
+               AutoDelete->False,
+               GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Top}}},
+               GridBoxItemSize->{"Columns" -> {{Fit}}, "Rows" -> {{Fit}}}],
+              "Grid"]},
+            {
+             FrameBox[
+              PaneBox[Cell["\<\
+/* 
+JavaScript EmbedCode usage:
+
+var wcc = new WolframCloudCall();
+wcc.call(shareArray, function(result) { console.log(result); });
+*/
+ 
+var WolframCloudCall;
+
+(function() {
+WolframCloudCall = function() {\tthis.init(); };
+
+var p = WolframCloudCall.prototype;
+
+p.init = function() {};
+
+p._createCORSRequest = function(method, url) {
+\tvar xhr = new XMLHttpRequest();
+\tif (\"withCredentials\" in xhr) {
+\t\txhr.open(method, url, true);
+\t} else if (typeof XDomainRequest != \"undefined\") {
+\t\txhr = new XDomainRequest();
+\t\txhr.open(method, url);
+\t} else {
+\t\txhr = null;
+\t}
+\treturn xhr;
+};
+
+p._encodeArgs = function(args) {
+\tvar argName;
+\tvar params = \"\";
+\tfor (argName in args) {
+\t\tparams += (params == \"\" ? \"\" : \"&\");
+\t\tparams += encodeURIComponent(argName) + \"=\" + \
+encodeURIComponent(args[argName]);
+\t}
+\treturn params;
+};
+
+p._auxCall = function(url, args, callback) {
+\tvar params = this._encodeArgs(args);
+\tvar xhr = this._createCORSRequest(\"post\", url);
+\tif (xhr) {
+\t\txhr.setRequestHeader(\"Content-Type\", \
+\"application/x-www-form-urlencoded\");
+\t\txhr.setRequestHeader(\"EmbedCode-User-Agent\", \"EmbedCode-JavaScript/1.0\
+\");
+\t\txhr.onload = function() {
+\t\t\tif ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+\t\t\t\tcallback(xhr.responseText);
+\t\t\t} else {
+\t\t\t\tcallback(null);
+\t\t\t}
+\t\t};
+\t\txhr.send(params);
+\t} else {
+\t\tthrow new Error(\"Could not create request object.\");
+\t}
+};
+
+p.call = function(shareArray, callback) {
+\tvar url = \
+\"http://www.wolframcloud.com/obj/922e3e47-51d2-4898-af11-e58808e053a4\";
+\tvar args = {shareArray: shareArray};
+\tvar callbackWrapper = function(result) {
+\t\tif (result === null) callback(null);
+\t\telse callback(result);
+\t};
+\tthis._auxCall(url, args, callbackWrapper);
+};
+})();\
+\>",
+                Editable->False,
+                Deployed->False,ExpressionUUID->
+                "6ebeb32a-5c22-4565-91b2-310113506721"],
+               AppearanceElements->{},
+               ImageSize->{
+                 Scaled[1], 300},
+               ScrollPosition->{0., 0.},
+               Scrollbars->Automatic],
+              Background->GrayLevel[1],
+              BaseStyle->"StandardForm",
+              FrameStyle->RGBColor[0.69, 0.69, 0.69],
+              StripOnInput->False]}
+           },
+           DefaultBaseStyle->"Column",
+           GridBoxAlignment->{"Columns" -> {{Left}}},
+           GridBoxItemSize->{"Columns" -> {{Fit}}, "Rows" -> {{Fit}}},
+           GridBoxSpacings->{"Columns" -> {{0}}, "Rows" -> {0.2, {0.5}}}],
+          "Column"],
+         Background->RGBColor[0.96, 0.96, 0.96],
+         FrameMargins->{{14, 14}, {14, 10}},
+         FrameStyle->RGBColor[0.69, 0.69, 0.69],
+         StripOnInput->False]}
+      },
+      DefaultBaseStyle->"Column",
+      GridBoxAlignment->{"Columns" -> {{Left}}},
+      GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+      GridBoxSpacings->{"Columns" -> {{0}}, "Rows" -> {0.3, 0.4, 0.8, 1.5}}],
+     "Column"],
+    Background->RGBColor[0.87, 0.87, 0.87],
+    BaseStyle->{"Deploy"},
+    ImageSize->630],
+   Background->RGBColor[0.87, 0.87, 0.87],
+   FrameMargins->{{2, 2}, {1, 1}},
+   FrameStyle->RGBColor[0.76, 0.76, 0.76],
+   RoundingRadius->6,
+   StripOnInput->False],
+  EmbeddingObject[<|
+   "EnvironmentName" -> "JavaScript", 
+    "CodeSection" -> <|
+     "Content" -> 
+      "/* \nJavaScript EmbedCode usage:\n\nvar wcc = new WolframCloudCall();\n\
+wcc.call(shareArray, function(result) { console.log(result); });\n*/\n \nvar \
+WolframCloudCall;\n\n(function() {\nWolframCloudCall = function() {\t\
+this.init(); };\n\nvar p = WolframCloudCall.prototype;\n\np.init = function() \
+{};\n\np._createCORSRequest = function(method, url) {\n\tvar xhr = new \
+XMLHttpRequest();\n\tif (\"withCredentials\" in xhr) {\n\t\txhr.open(method, \
+url, true);\n\t} else if (typeof XDomainRequest != \"undefined\") {\n\t\txhr \
+= new XDomainRequest();\n\t\txhr.open(method, url);\n\t} else {\n\t\txhr = \
+null;\n\t}\n\treturn xhr;\n};\n\np._encodeArgs = function(args) {\n\tvar \
+argName;\n\tvar params = \"\";\n\tfor (argName in args) {\n\t\tparams += \
+(params == \"\" ? \"\" : \"&\");\n\t\tparams += encodeURIComponent(argName) + \
+\"=\" + encodeURIComponent(args[argName]);\n\t}\n\treturn params;\n};\n\n\
+p._auxCall = function(url, args, callback) {\n\tvar params = \
+this._encodeArgs(args);\n\tvar xhr = this._createCORSRequest(\"post\", url);\n\
+\tif (xhr) {\n\t\txhr.setRequestHeader(\"Content-Type\", \
+\"application/x-www-form-urlencoded\");\n\t\t\
+xhr.setRequestHeader(\"EmbedCode-User-Agent\", \"EmbedCode-JavaScript/1.0\");\
+\n\t\txhr.onload = function() {\n\t\t\tif ((xhr.status >= 200 && xhr.status < \
+300) || xhr.status == 304) {\n\t\t\t\tcallback(xhr.responseText);\n\t\t\t} \
+else {\n\t\t\t\tcallback(null);\n\t\t\t}\n\t\t};\n\t\txhr.send(params);\n\t} \
+else {\n\t\tthrow new Error(\"Could not create request object.\");\n\t}\n};\n\
+\np.call = function(shareArray, callback) {\n\tvar url = \
+\"http://www.wolframcloud.com/obj/922e3e47-51d2-4898-af11-e58808e053a4\";\n\t\
+var args = {shareArray: shareArray};\n\tvar callbackWrapper = \
+function(result) {\n\t\tif (result === null) callback(null);\n\t\telse \
+callback(result);\n\t};\n\tthis._auxCall(url, args, callbackWrapper);\n};\n\
+})();", "Title" -> Automatic|>, "CloudObject" -> 
+    CloudObject[
+     "https://www.wolframcloud.com/obj/922e3e47-51d2-4898-af11-e58808e053a4"]|>\
+]]], "Output",
+ CellChangeTimes->{3.9146827528914337`*^9},
+ CellLabel->"Out[20]=",ExpressionUUID->"4b747330-e898-4833-bbc2-8bbdb19d52c2"]
+}, Open  ]]
+},
+WindowSize->{Full, Full},
+WindowMargins->{{460, Automatic}, {Automatic, 50}},
+FrontEndVersion->"13.3 for Mac OS X ARM (64-bit) (July 24, 2023)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"22e726fc-7729-4eb5-8fce-df33fee3dec8"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 714, 16, 30, "Input",ExpressionUUID->"354fec8f-32a5-4297-b299-72b579a32a64"],
+Cell[1297, 40, 481, 12, 34, "Output",ExpressionUUID->"0cc917f7-5851-499c-ac9f-f07d4d9e5149"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1815, 57, 255, 5, 30, "Input",ExpressionUUID->"0f4554af-fc88-497b-9228-1971b5d96cd6"],
+Cell[2073, 64, 518, 11, 37, "Output",ExpressionUUID->"07f5d631-8313-4cf4-8be3-4a015f778159"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2628, 80, 187, 3, 30, "Input",ExpressionUUID->"8eaa92ff-108c-451f-9b54-dc49062aba54"],
+Cell[2818, 85, 9712, 233, 447, "Output",ExpressionUUID->"4b747330-e898-4833-bbc2-8bbdb19d52c2"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
